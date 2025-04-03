@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MONGO_URI=${MONGO_URI}   # Usa variables de entorno del archivo .env
+      - DB_NAME=${DB_NAME}
+      - FLASK_DEBUG=${FLASK_DEBUG}
+    ports:
+      - "5000:5000"              # Puerto de la API Flask
+    volumes:
+      - .:/app                   # Monta el código local para hot-reloading
+      - venv:/app/venv           # Persiste dependencias (opcional)
+    command: python src/main.py   # Punto de entrada de la app
+    depends_on:
+      - data_generator
+
+  data_generator:
+    build: .
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - DB_NAME=${DB_NAME}
+    command: python src/data_generator.py  # Genera datos al iniciar
+    volumes:
+      - .:/app                   # Sincroniza código (si el script se modifica)
+
+volumes:
+  venv:                          # Volumen para persistir el entorno virtual
+
+  
