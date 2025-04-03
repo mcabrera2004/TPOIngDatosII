@@ -1,0 +1,6 @@
+pymongo==4.3.3
+Flask==2.2.2
+pandas==1.5.3
+faker==18.11.2
+scikit-learn==1.2.2  # Para machine learning
+python-dotenv==0.21.1
